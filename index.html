@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>阿嬤的衛生紙包：守護乖孫食安大作戰</title>
+  <meta name="description" content="阿嬤溫馨食安教育互動遊戲，陪伴長輩與乖孫學習健康美味的飲食常識。">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 遊戲容器 -->
+    <main id="game-container">
+
+      <!-- ==========================================
+           1. 標題畫面
+           ========================================== -->
+      <section id="title-screen" class="screen active">
+        <div class="title-header">
+          <h1 class="main-title">阿嬤的衛生紙包</h1>
+          <p class="subtitle">守護乖孫食安大作戰</p>
+        </div>
+        <div class="title-bg"></div>
+        <button id="start-btn" class="btn-handdrawn">點我開始故事</button>
+      </section>
+
+      <!-- ==========================================
+           2. 繪本故事幻燈片畫面
+           ========================================== -->
+      <section id="story-screen" class="screen">
+        <div class="hud">
+          <div class="progress-bar-container">
+            <span class="progress-text">故事進度:</span>
+            <div class="progress-bar">
+              <div id="story-progress-fill" style="width: 15%"></div>
+            </div>
+          </div>
+          <div id="score-display">叮嚀點數: 0</div>
+        </div>
+
+        <div class="story-card">
+          <div class="story-frame watercolor-frame" id="story-frame-container">
+            <img id="story-img" src="./images/bg_kitchen_watercolor.png" alt="故事圖片" class="story-static-img">
+            <div id="story-theater" class="story-theater hidden">
+              <div class="theater-bg" id="theater-bg"></div>
+              <div class="theater-decorations" id="theater-decorations"></div>
+              <img src="./images/grandma.png" alt="阿嬤" class="theater-char char-grandma" id="theater-char-grandma">
+              <img src="./images/granddaughter.png" alt="乖孫" class="theater-char char-granddaughter" id="theater-char-granddaughter">
+              <div class="theater-overlay-effect" id="theater-overlay-effect"></div>
+            </div>
+          </div>
+          <div class="story-dialog-box">
+            <p id="story-text">故事載入中...</p>
+          </div>
+          <div class="story-actions">
+            <button id="story-prev-btn" class="btn-secondary hidden">回上頁</button>
+            <button id="story-next-btn" class="btn-handdrawn">繼續看 ➔</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           3. 關卡一：阿嬤的餐桌挑選
+           ========================================== -->
+      <section id="kitchen-table-screen" class="screen">
+        <div class="hud">
+          <div class="progress-bar-container">
+            <span class="progress-text">餐桌把關:</span>
+            <div class="progress-bar">
+              <div id="table-progress-fill" style="width: 40%"></div>
+            </div>
+          </div>
+          <div id="table-score-display">叮嚀點數: 0</div>
+        </div>
+
+        <div class="level-title-container">
+          <h2 class="level-title">阿嬤的挑選時間 🍞</h2>
+          <p class="level-desc">阿嬤想包好吃的給乖孫，哪些食物「可以吃」？哪些該「丟棄」？（請點選桌上食品）</p>
+        </div>
+
+        <div class="hidden-object-container" id="hidden-object-container">
+          <div class="hidden-object-surface" id="hidden-object-surface">
+            <!-- 壽司風春捲 -->
+            <div class="food-item hidden-food" id="food-spring-roll" data-id="spring-roll" style="top: 55%; left: 15%;">
+              <img src="./images/sushi_spring_rolls.png" alt="壽司風春捲">
+              <div class="food-status-badge" id="badge-spring-roll"></div>
+            </div>
+            <!-- i禎食麵包 -->
+            <div class="food-item hidden-food" id="food-safe-bread" data-id="safe-bread" style="top: 50%; left: 35%;">
+              <img src="./images/food_bread_safe_watercolor.png" alt="i禎食麵包">
+              <div class="food-status-badge" id="badge-safe-bread"></div>
+            </div>
+            <!-- 發霉吐司 -->
+            <div class="food-item hidden-food" id="food-moldy-bread" data-id="moldy-bread" style="top: 58%; left: 55%;">
+              <img src="./images/food_bread_moldy_watercolor.png" alt="發霉吐司">
+              <div class="food-status-badge" id="badge-moldy-bread"></div>
+            </div>
+            <!-- 發芽馬鈴薯 -->
+            <div class="food-item hidden-food" id="food-sprouted-potato" data-id="sprouted-potato" style="top: 62%; left: 75%;">
+              <img src="./images/food_potato_sprout_watercolor.png" alt="發芽馬鈴薯">
+              <div class="food-status-badge" id="badge-sprouted-potato"></div>
+            </div>
+            <!-- 膨脹罐頭 -->
+            <div class="food-item hidden-food" id="food-bloated-can" data-id="bloated-can" style="top: 60%; left: 85%;">
+              <img src="./images/food_can_bloated_watercolor.png" alt="膨脹罐頭">
+              <div class="food-status-badge" id="badge-bloated-can"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story-actions" style="margin-top: 30px;">
+          <button id="table-done-btn" class="btn-handdrawn hidden">選好了，去包裝！ ➔</button>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           4. 關卡一後半：衛生紙摺疊畫面
+           ========================================== -->
+      <section id="tissue-wrap-screen" class="screen">
+        <div class="hud">
+          <div class="progress-bar-container">
+            <span class="progress-text">愛心包裝:</span>
+            <div class="progress-bar">
+              <div id="wrap-progress-fill" style="width: 60%"></div>
+            </div>
+          </div>
+          <div id="wrap-score-display">叮嚀點數: 0</div>
+        </div>
+
+        <div class="level-title-container">
+          <h2 class="level-title">💝 衛生紙愛心包裝 💝</h2>
+          <p class="level-desc" id="wrap-instruction">請點擊下方合格食品放上衛生紙中...</p>
+        </div>
+
+        <div class="tissue-table-surface">
+          <!-- 衛生紙本體 -->
+          <div class="tissue-canvas" id="tissue-canvas">
+            <!-- 放置進去的食品 -->
+            <div class="tissue-food-holder" id="tissue-food-holder"></div>
+
+            <!-- 四角遮片 (CSS 摺疊片) -->
+            <div class="tissue-flap flap-tl" id="flap-tl"></div>
+            <div class="tissue-flap flap-tr" id="flap-tr"></div>
+            <div class="tissue-flap flap-bl" id="flap-bl"></div>
+            <div class="tissue-flap flap-br" id="flap-br"></div>
+
+            <!-- 四個點擊摺疊熱點 -->
+            <div class="corner-hotspot hotspot-tl hidden" id="hotspot-tl" data-corner="tl">
+              <span>↖</span>點我摺
+            </div>
+            <div class="corner-hotspot hotspot-tr hidden" id="hotspot-tr" data-corner="tr">
+              <span>↗</span>點我摺
+            </div>
+            <div class="corner-hotspot hotspot-bl hidden" id="hotspot-bl" data-corner="bl">
+              <span>↙</span>點我摺
+            </div>
+            <div class="corner-hotspot hotspot-br hidden" id="hotspot-br" data-corner="br">
+              <span>↘</span>點我摺
+            </div>
+          </div>
+        </div>
+
+        <!-- 桌上待包的食品堆 -->
+        <div class="food-pile-container" id="food-pile-container">
+          <!-- 會依據餐桌把關結果動態生成 -->
+        </div>
+
+        <div class="story-actions" style="margin-top: 25px;">
+          <button id="wrap-finish-btn" class="btn-handdrawn hidden">送給乖孫囉！🎁 ➔</button>
+        </div>
+      </section>
+
+
+
+      <!-- ==========================================
+           7. 結算畫面
+           ========================================== -->
+      <section id="result-screen" class="screen">
+        <div class="content-box result-box">
+          <h1 class="main-title" style="font-size:3.5rem;">守護大成功！🏆</h1>
+          <p class="subtitle" style="font-size:1.8rem;">我們成功守護了阿嬤的健康與回憶！</p>
+          
+          <div id="final-score" class="final-score">0 / 8</div>
+          
+          <div id="wisdom-card" class="wisdom-card">
+            <img src="./images/granddaughter.png" alt="乖孫" class="avatar">
+            <div class="wisdom-bubble">
+              <h3>乖孫的溫馨叮嚀</h3>
+              <p id="wisdom-text">阿嬤，有我在，您的廚房絕對安全又健康！</p>
+            </div>
+          </div>
+
+          <button id="restart-btn" class="btn-handdrawn" style="margin-top:20px;">重新挑戰</button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==========================================
+         A. 食品詳細資訊放大彈窗 (Zoom Modal)
+         ========================================== -->
+    <div id="food-zoom-modal" class="overlay">
+      <div class="modal-content">
+        <div class="modal-title" id="zoom-title">食品名稱</div>
+        <div class="modal-img-container">
+          <img id="zoom-img" src="" alt="放大食物">
+        </div>
+        <div class="modal-desc" id="zoom-desc">食品詳細說明描述...</div>
+        <div class="modal-actions">
+          <button class="btn-choice btn-choice-safe" id="choice-safe-btn">
+            <span>✅</span> 可以吃啦
+          </button>
+          <button class="btn-choice btn-choice-discard" id="choice-discard-btn">
+            <span>❌</span> 丟棄它
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         B. 孫女食物中毒臥病在床彈窗 (Punishment Modal)
+         ========================================== -->
+    <div id="poison-modal" class="overlay">
+      <div class="modal-content poison-modal" id="poison-box">
+        <div class="poison-title">🚨 哎呀！乖孫食物中毒了！</div>
+        <div class="poison-bed-frame">
+          <img src="./images/food_poison_bed.png" alt="食物中毒臥病在床">
+        </div>
+        <div class="poison-wisdom-bubble" id="poison-message">
+          這款食品已經變質，強行給乖孫吃會導致急性食物中毒拉肚子的！
+        </div>
+        <button class="btn-poison-retry" id="poison-retry-btn">
+          😭 阿嬤對不起，我重新選！
+        </button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         C. LINE 題目科學解析彈窗 (LINE Explain Modal)
+         ========================================== -->
+    <div id="quiz-explain-modal" class="overlay">
+      <div class="modal-content quiz-explain-modal">
+        <div class="quiz-explain-header" id="quiz-explain-header">
+          <span>🌟</span> 答對囉！
+        </div>
+        <div class="quiz-explain-desc" id="quiz-explain-desc">
+          科普說明：霉菌雖然用肉眼切除，但隱藏的菌絲早就深入麵包內部，吃下去會累積黃麴毒素...
+        </div>
+        <button class="btn-handdrawn" id="quiz-next-btn" style="padding:15px; font-size:1.6rem; margin-top:10px;">
+          下一個挑戰 ➔
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./main.js"></script>
+</body>
+</html>
